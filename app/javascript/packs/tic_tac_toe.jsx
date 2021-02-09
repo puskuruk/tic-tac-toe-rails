@@ -4,7 +4,10 @@ import useTicTacToe from './use_tic_tac_toe'
 import './tic_tac_toe.css'
 
 const Game = () => {
-  const {columns} = useTicTacToe()
+  const {
+    columns,
+    onClickColumn,
+  } = useTicTacToe()
 
   return (
     <div id="wrapper">
@@ -14,6 +17,7 @@ const Game = () => {
             <div
               key={column + columnIndex}
               className="column-wrapper"
+              onClick={() => onClickColumn(columnIndex)}
             >
               <span className="column">{column} {columnIndex}</span>
             </div>
