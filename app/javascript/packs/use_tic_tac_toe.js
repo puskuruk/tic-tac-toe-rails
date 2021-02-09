@@ -21,14 +21,20 @@ export default function useTicTacToe() {
     setColumns(updatedColumns)
   }
 
+  const resetGame = () => {
+    setColumns(initialColumns)
+  }
+
   useEffect(() => {
-    if (columns.every(c => c)) setColumns(initialColumns)
+    if (columns.every(c => c)) resetGame()
 
     setCurrentSign(currentSign === 'X' ? 'O' : 'X')
   }, [columns])
 
+
   return {
     columns,
-    onClickColumn
-  }
+    onClickColumn,
+    resetGame,
+  };
 }
