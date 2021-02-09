@@ -6,9 +6,9 @@
 
 [ ] Make game route root route
 
-[ ] Create a single player tic tac toe
+[X] Create a single player tic tac toe
 
-[ ] Add computer as second player
+[X] Add computer as second player
 
 [ ] Make game playable for 2 users
 

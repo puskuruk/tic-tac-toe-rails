@@ -40,3 +40,24 @@ body {
 .column-wrapper:hover {
   cursor: pointer;
 }
+
+.overlay {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  backdrop-filter: grayscale(0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  position: relative;
+  background-color: #a480cf;
+  width: 50%;
+  height: 40%;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-weight: 700;
+}

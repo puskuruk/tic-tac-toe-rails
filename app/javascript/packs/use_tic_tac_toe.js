@@ -1,10 +1,25 @@
 import { useEffect, useState } from "react"
 
 const initialColumns = Array.from({ length: 9 }, () => null);
+const nextSign = (sign) => sign === 'X' ? 'O' : 'X'
 
 export default function useTicTacToe() {
+  const [isGameStarted, setIsGameStarted] = useState(false)
   const [columns, setColumns] = useState(initialColumns)
   const [currentSign, setCurrentSign] = useState('X')
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0)
+  const [players, setPlayers] = useState([])
+
+  const addComputerAsSecondPlayer = () => {
+    setPlayers([
+      ...players,
+      {name: 'Computer', sign: nextSign(currentSign)}
+    ])
+  }
+
+  const startGame = () => {
+    setIsGameStarted(true)
+  }
 
   const updateColumns = (columnIndex) => {
     const updatedColumns = [...columns]
@@ -22,19 +37,42 @@ export default function useTicTacToe() {
   }
 
   const resetGame = () => {
+    setCurrentPlayerIndex(0);
     setColumns(initialColumns)
   }
 
   useEffect(() => {
-    if (columns.every(c => c)) resetGame()
+    if (!isGameStarted) return
 
-    setCurrentSign(currentSign === 'X' ? 'O' : 'X')
-  }, [columns])
+    if (columns.every(c => c)) return resetGame()
 
+    setCurrentSign(nextSign(currentSign))
+    setCurrentPlayerIndex(currentPlayerIndex === 1 ? 0 : 1)
+  }, [columns, isGameStarted])
+
+  const playAsSecondPlayer = () => {
+    const column = Math.floor(Math.random() * 8);
+
+    if (columns[column]) playAsSecondPlayer();
+
+    onClickColumn(column);
+  }
+
+  useEffect(() => {
+    if (currentPlayerIndex === 0) return;
+
+    playAsSecondPlayer();
+  }, [currentPlayerIndex])
 
   return {
     columns,
     onClickColumn,
     resetGame,
+    isGameStarted,
+    setCurrentSign,
+    startGame,
+    setPlayers,
+    players,
+    addComputerAsSecondPlayer,
   };
 }
