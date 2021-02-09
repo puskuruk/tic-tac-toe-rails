@@ -1,9 +1,11 @@
 class TicTacToeChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
+    stream_from current_room
   end
 
-  def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
+  private
+
+  def current_room
+    "tic_tac_toe_channel_#{params[:room_id]}"
   end
 end

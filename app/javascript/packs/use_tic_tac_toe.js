@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react"
+import { nanoid } from "nanoid"
+import ticTacToeChannel from "../channels/tic_tac_toe_channel"
 
 const initialColumns = Array.from({ length: 9 }, () => null);
 const nextSign = (sign) => sign === 'X' ? 'O' : 'X'
+
+const getUrlParams = () =>
+  (new URL(window.location.href)).searchParams.get('game')
+const roomId = getUrlParams() || nanoid()
 
 export default function useTicTacToe() {
   const [isGameStarted, setIsGameStarted] = useState(false)
@@ -9,6 +15,8 @@ export default function useTicTacToe() {
   const [currentSign, setCurrentSign] = useState('X')
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0)
   const [players, setPlayers] = useState([])
+
+  const channel = ticTacToeChannel(roomId)
 
   const addComputerAsSecondPlayer = () => {
     setPlayers([
