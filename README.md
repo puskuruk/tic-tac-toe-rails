@@ -2,7 +2,7 @@
 
 [X] Create an empty rails project with react
 
-[ ] Create a route for the game
+[X] Create a route for the game
 
 [ ] Make game route root route
 
