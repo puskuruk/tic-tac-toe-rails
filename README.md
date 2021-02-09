@@ -1,24 +1,31 @@
-# README
+## Steps:
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[X] Create an empty rails project with react
 
-Things you may want to cover:
+[ ] Create a route for the game
 
-* Ruby version
+[ ] Make game route root route
 
-* System dependencies
+[ ] Create a single player tic tac toe
 
-* Configuration
+[ ] Add computer as second player
 
-* Database creation
+[ ] Make game playable for 2 users
 
-* Database initialization
+[ ] Add `play again` functionality
 
-* How to run the test suite
+[ ] Add a selection for playing with computer or a real player
 
-* Services (job queues, cache servers, search engines, etc.)
+[ ] Deploy to Heroku
 
-* Deployment instructions
+[ ] Make game watchable
 
-* ...
+[ ] Create a model for games
+
+[ ] Add a sidekiq worker to the app
+
+[ ] Update db with background jobs
+
+[ ] Make authentication
+
+[ ] Create a dashboard
