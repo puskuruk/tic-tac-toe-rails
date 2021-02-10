@@ -1,3 +1,7 @@
+## Current State Video:
+
+![](https://user-images.githubusercontent.com/22892227/107450158-cebfca80-6b55-11eb-91f4-a7dce2059cdc.mov)
+
 ## Steps:
 
 [X] Create an empty rails project with react
