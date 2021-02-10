@@ -13,16 +13,20 @@ const Modal = ({children}) => {
   )
 }
 
-const TicTacToe = ({columns, onClickColumn}) => {
+
+const TicTacToe = ({columns, onClickColumn, userPlayingText, isUsersRound}) => {
   return (
     <div id="wrapper">
+      <span>
+        {userPlayingText && userPlayingText}
+      </span>
       <div id="tic-tac-toe">
         {
           columns.map((column, columnIndex) => (
             <div
-              key={column + columnIndex}
-              className="column-wrapper"
-              onClick={() => onClickColumn(columnIndex)}
+            key={column + columnIndex}
+            className={`column-wrapper ${isUsersRound && 'disabled-column'}`}
+            onClick={() => onClickColumn(columnIndex)}
             >
               <span className="column">{column} {columnIndex}</span>
             </div>
@@ -33,30 +37,50 @@ const TicTacToe = ({columns, onClickColumn}) => {
   )
 }
 
+const ScoreBoard = ({gameScore, resetGame}) => {
+  return (
+    <Modal>
+      <div>
+        {gameScore || ''}
+        <br />
+        <button onClick={resetGame}>Play Again</button>
+      </div>
+    </Modal>
+  )
+}
+
 const Signs = {
   X: 'X',
   O: 'O'
 }
 
-const Lobby = ({startGame, changeCurentUsersName, changeCurrentUsersSign}) => {
+const Lobby = ({startGame, changeCurentUsersName, changeCurrentUsersSign, isGuest}) => {
   return(
     <Modal>
       <div className="game-wrapper">
         <span>Username:</span>
+        <br />
         <input
           type="text"
           onChange={e => changeCurentUsersName(e.target.value)}
-          />
-        Select a sign
-        <div className="signs-wrapper">
-          {
-            Object.values(Signs).map(sign => (
-              <button key={sign} onClick={e => changeCurrentUsersSign(sign)}>
-                {sign}
-              </button>
-            ))
-          }
-        </div>
+        />
+        <br />
+        {!isGuest && (
+          <React.Fragment>
+            <span>Select a sign</span>
+            <br />
+            <div className="signs-wrapper">
+              {
+                Object.values(Signs).map(sign => (
+                  <button key={sign} onClick={e => changeCurrentUsersSign(sign)}>
+                    {sign}
+                  </button>
+                ))
+              }
+            </div>
+          </React.Fragment>
+        )}
+        <br />
         <button
           onClick={startGame}
           >
@@ -72,14 +96,19 @@ const Game = () => {
 
   const {
     columns,
+    currentPlayerIndex,
     onClickColumn,
+    gameScore,
+    resetGame,
     isGameStarted,
-    setCurrentSign,
     startGame,
-    setPlayers,
+    roomId,
     players,
-    addComputerAsSecondPlayer,
-  } = useTicTacToe()
+    setCurrentSign,
+    getUrlParams,
+    isRoomFull,
+    isUsersRound,
+  } = useTicTacToe({currentPlayer, setCurrentPlayer})
 
   const changeCurentUsersName = (name) => {
     setCurrentPlayer({...currentPlayer, name})
@@ -90,13 +119,6 @@ const Game = () => {
     setCurrentPlayer({...currentPlayer, sign})
   }
 
-  useEffect(() => {
-    if(!currentPlayer.name || !currentPlayer.sign) return
-
-    setPlayers([...players, currentPlayer])
-    addComputerAsSecondPlayer()
-  }, [currentPlayer])
-
   return (
     <React.Fragment>
       {!isGameStarted && (
@@ -104,11 +126,20 @@ const Game = () => {
             changeCurrentUsersSign={changeCurrentUsersSign}
             changeCurentUsersName={changeCurentUsersName}
             startGame={startGame}
+            isGuest={getUrlParams()}
           />
       )}
+      {gameScore && <ScoreBoard gameScore={gameScore} resetGame={resetGame} /> }
+      {isGameStarted && !isRoomFull && !getUrlParams() && <input type="readonly" value={`${window.location.href}?game=${roomId}`} />}
       <TicTacToe
         columns={columns}
         onClickColumn={onClickColumn}
+        currentPlayer={currentPlayer}
+        currentPlayerIndex={currentPlayerIndex}
+        userPlayingText={
+          isRoomFull && `${players[currentPlayerIndex]?.name} is playing`
+        }
+        isUsersRound={isUsersRound}
       />
     </React.Fragment>
   )

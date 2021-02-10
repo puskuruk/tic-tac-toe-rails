@@ -11,6 +11,7 @@ body {
   height: 100vh;
   width: 100vw;
   display: flex;
+  flex-direction: column;
 }
 
 #tic-tac-toe {
@@ -39,6 +40,10 @@ body {
 
 .column-wrapper:hover {
   cursor: pointer;
+}
+
+.disabled-column, .disabled-column:hover {
+  cursor: not-allowed;
 }
 
 .overlay {

@@ -10,9 +10,9 @@
 
 [X] Add computer as second player
 
-[ ] Make game playable for 2 users
+[X] Make game playable for 2 users
 
-[ ] Add `play again` functionality
+[X] Add `play again` functionality
 
 [ ] Add a selection for playing with computer or a real player
 

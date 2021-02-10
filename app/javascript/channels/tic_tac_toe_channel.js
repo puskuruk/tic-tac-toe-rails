@@ -1,6 +1,6 @@
 import consumer from './consumer'
 
-function ticTacToeChannel(roomId) {
+function ticTacToeChannel(roomId, methods) {
   return consumer.subscriptions.create({
     room_id: roomId,
     channel: "TicTacToeChannel"
@@ -13,8 +13,20 @@ function ticTacToeChannel(roomId) {
       // Called when the subscription has been terminated by the server
     },
 
-    received(data) {
-      // Called when there's incoming data on the websocket for this channel
+    received({payload, action}) {
+      methods[action](payload)
+    },
+
+    restartGame() {
+      this.perform('restart_game')
+    },
+
+    joinGame(player){
+      this.perform('user_joined', { player });
+    },
+
+    userPlayed(columns, sign, player) {
+      this.perform('move', { columns, sign, player });
     }
   })
 }
